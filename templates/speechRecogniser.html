@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SmartHome</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.min.css" />
+    <style type="text/css">"
+
+    bodyFrame{
+      font-family: verdana;
+      }
+      #result{
+      height:200px;
+      border:4px solid #ccc;
+      padding:10px;
+      font-size:14px;
+      }
+      #finalResult{
+      height:100px;
+      border:4px solid #ccc;
+      padding:10px;
+      font-size:15px;
+      }
+      button{
+      font-size:20px;
+      position:absolute;
+      top:240px;
+      left:50%;
+      }
+      #middle{
+      height:20px;
+      padding:5px;
+      }
+    </style>
+
+  </head>
+  <body class="bodyFrame">
+    {% include 'includes/_navBar.html' %}
+
+    <div class ="container">
+      {% include 'includes/_message.html' %}
+      {% block body %}{% endblock %}
+    </div>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"> </script>
+
+  </body>
+</html>

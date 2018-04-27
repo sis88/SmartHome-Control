@@ -1,0 +1,32 @@
+<nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header" >
+          <i class="btn btn-lg btn-success" href="/">
+              <i class="fa fa-flag fa-fw pull-left"></i> SMART HOME CONTROL</i>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+         <ul class="nav navbar-nav">
+            <li><a class ="nav navbar-brand" href="/">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-home fa-fw"></i><strong>HOME</strong></a></li>
+            <li><a class ="nav navbar-brand" href="/about"><i class ="fa fa-info fa-fw"></i><strong>ABOUT</strong></a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if session.logged_in and session.userType =='Father' %}
+
+              <li><a class ="nav navbar-brand" href="/control">&nbsp;&nbsp;<i class="fa fa-cog fa-fw"></i><strong>CONTROL</strong></a></li>
+              <li><a class ="nav navbar-brand" href="/logout"><i class="fa fa-lock fa-fw"></i><strong>LOGOUT</strong></a></li>
+            {% elif session.logged_in %}
+              <li><a class ="nav navbar-brand" href="/control">&nbsp;&nbsp;<i class="fa fa-cog fa-fw"></i><strong>CONTROL</strong></a></li>
+              <li><a class ="nav navbar-brand" href="/logout"><i class="fa fa-lock fa-fw"></i><strong>LOGOUT</strong></a></li>
+
+            {% else %}
+
+              <li><a class ="nav navbar-brand" href="/login"><i class ="fa fa-key fa fw"></i>Login</a></li>
+              <li><a class ="nav navbar-brand" href="/control">&nbsp;&nbsp;<i class="fa fa-cog fa-fw"></i><strong>CONTROL</strong></a></li>
+              <li><a class ="nav navbar-brand" href="/Register"><i class= "fa fa-user-plus fa-fw"></i><strong>REGISTER</strong></a></li>
+              
+
+            {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+</nav>

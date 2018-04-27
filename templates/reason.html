@@ -1,0 +1,127 @@
+
+<script>
+
+// Text to speech
+function textTospeech(text, callback)
+{
+    var speech = new SpeechSynthesisUtterance();
+    speech.text = text;
+    speech.lang = 'en-GB';
+    speech.rate=1;
+
+    speech.onend = function () {
+        if (callback) {
+            callback();
+        }
+    };
+
+    speech.onerror = function (e) {
+        if (callback) {
+            callback(e);
+        }
+    };
+
+    speechSynthesis.speak(speech);
+}
+</script>
+{% extends 'includes/_speechRecogniser.html' %}
+{% block body %}
+
+<div class="col-md-6">
+  <div class="p-3 mb-2 bg-grey text-white">
+  <h1><i class="fa fa-cog fa-spin fa-2x fa-fw"> </i>Dashboard &nbsp;<small> Welcome {{session.userName}}</small></h1>
+    <h4>
+      <center>
+        <i class ="fa fa-quote-left fa-fw"></i>This is your smart Home Reasoner,<br /><br />
+          Press the Mic Icon on the right handside of the page<br /> to start Voice Recogniser. <br /><br />
+          Please state the location of the device to get maximal Result. <br />
+          For Example Say: 'Turn the Living ROOM light ON' or <br />Simply 'Living room light ON'<br /><br />
+          {% if session.logged_in %}
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+          text="welcome";
+          textTospeech(text);
+          </script>
+          {% endif %}
+        <i class="fa fa-quote-right fa-fw"></i>
+      </center>
+    </h4>
+  </div>
+</div>
+<div id ="result" class="col-md-6">
+    <form id ="" action="" method="GET">
+      <input type="text" name="userReason" id="userOrder" contenteditable="true" class="form-control input-lg" />
+    </form>
+    <center>
+      <br />
+        <button class="align-bottom" id="buttonSpeech" onclick="startConverting();">
+        <i class="fa fa-microphone fa-2x"></i>
+        </button>
+    </center>
+</div>
+<div id ="middle" class="col-md-6">
+</div>
+<div id ="finalResult" class="col-md-6">
+    <form id ="submit" action="reason" method="POST">
+      <input type="text" name="uReason" id="uOrder" contenteditable="false" class="form-control input-lg" /><br />
+        <center><input type="button" name="myButton" class="btn btn-primary btn-block" value="Submit" /></center>
+    </form>
+</div>
+<script>
+
+document.addEventListner("click",startConverting());
+
+//Speech to Text
+function startConverting()
+{
+    if ('webkitSpeechRecognition' in window)
+    {
+      var VoiceListener =new webkitSpeechRecognition();
+      VoiceListener.continuous=false;
+      VoiceListener.interimResults=false;
+      VoiceListener.lang='en.GB';
+      VoiceListener.start();
+      var finalTranscripts = '';
+	    VoiceListener.onresult = function(event)
+	    {
+        var finalTranscripts = '';
+        var interimTranscripts = '';
+	       for (var i=event.resultIndex; i< event.results.length; i++)
+		        {
+		            var transcript =event.results[i][0].transcript;
+		              transcript.replace("\n", "<br>");
+			               if(event.results[i].isFinal)
+			                  {
+				                      finalTranscripts+=transcript;
+			                  }
+			               else
+			                  {
+				                   interimTranscripts+=transcript;
+			                  }
+		         }
+                            document.getElementById("userOrder").value=finalTranscripts;
+                            var reason = finalTranscripts
+                            document.getElementById("uOrder").value=reason;
+                            document.getElementById("submit").submit();
+
+        }
+        VoiceListener.onerror=function(event)
+
+        {
+
+          //text="No speech Detected, Please try again";
+          //textTospeech(text);
+          location.reload();
+        }
+        VoiceListener.onstart=function(event)
+        {
+          document.getElementById("userOrder").value= '...Listenning. Try speaking';
+          document.getElementById("uOrder").value= '';
+        }
+    }
+    else
+     {
+        document.getElementById("userOrder").value="your Browser is not supported";
+     }
+}
+</script>
+{% endblock %}
